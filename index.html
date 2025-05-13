@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+    <title>Dashboard</title>
+</head>
+
+<body>
+
+    <div class="container">
+        <aside class="sidebar">
+            <div class="profile-pic"></div>
+            <button class="sidebar-btn" id="username">Username</button>
+            <button class="sidebar-btn" onclick="showProducts()">Products</button>
+            <button class="sidebar-btn" onclick="showHistory()">History</button>
+            <button class="sidebar-btn" onclick="showForm()">Form</button>
+            <button class="sidebar-btn" id="logout">Logout</button>
+        </aside>
+
+        <main class="main-content">
+            <header class="header">
+                <div class="page-name">Page Name</div>
+                <div class="user-icon"></div>
+            </header>
+
+            <section id="content" class="content">
+            </section>
+        </main>
+    </div>
+
+    <script>
+        function showProducts() {
+            const content = document.getElementById('content');
+            content.innerHTML = `
+      <h2>Products</h2>
+      <ul>
+        <li>Product 1</li>
+        <li>Product 2</li>
+        <li>Product 3</li>
+        <li>Product 4</li>
+      </ul>
+    `;
+        }
+
+        function showHistory() {
+            const content = document.getElementById('content');
+            content.innerHTML = `
+      <h2>Purchase History</h2>
+      <table border="1" cellpadding="10">
+        <tr>
+          <th>Product Name</th>
+          <th>Price</th>
+          <th>Date</th>
+        </tr>
+        <tr>
+          <td>Product 1</td>
+          <td>$10</td>
+          <td>2025-04-27</td>
+        </tr>
+        <tr>
+          <td>Product 2</td>
+          <td>$20</td>
+          <td>2025-04-26</td>
+        </tr>
+      </table>
+    `;
+        }
+
+        function showForm() {
+            const content = document.getElementById('content');
+            content.innerHTML = `
+      <h2>Submit Form</h2>
+      <form onsubmit="submitForm(event)">
+        <label>Product Name:</label><br>
+        <input type="text" name="product" required><br><br>
+        <label>Price:</label><br>
+        <input type="number" name="price" required><br><br>
+        <button type="submit">Submit</button>
+      </form>
+    `;
+        }
+
+        function submitForm(event) {
+            event.preventDefault();
+            alert('Form submitted successfully!');
+        }
+    </script>
+
+</body>
+
+</html>
