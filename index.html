@@ -1,94 +1,213 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="fa" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="style.css">
-    <title>Dashboard</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>خلاصه آمار پایان بازی | رئال مادرید × مارسی - Canva Code</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --ink:#0b1220;
+      --rm:#ffffff;
+      --om:#2bb3ff;
+    }
+    body{ font-family:'Vazirmatn',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; }
+    .soft{ box-shadow: 0 10px 30px rgba(0,0,0,.18); }
+    .glass{ background: rgba(255,255,255,.06); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+    .row{ border-radius: 16px; }
+    .bar{ height:10px; border-radius:999px; overflow:hidden; }
+    .minw0{ min-width: 0; } /* کمک به جلوگیری از بیرون‌زدن متن */
+  </style>
 </head>
+<body class="min-h-screen bg-gradient-to-b from-sky-900 via-slate-900 to-slate-950 text-white">
+  <main class="max-w-md mx-auto w-full px-5 py-6">
+    <!-- Header -->
+    <header class="glass rounded-2xl p-4 soft">
+      <div class="flex items-center justify-between gap-3">
+        <div class="flex items-center gap-2 minw0">
+          <span class="w-8 h-8 rounded bg-white block"></span>
+          <div class="font-extrabold truncate">رئال </div>
+        </div>
+        <div class="text-3xl font-extrabold tracking-tight text-center">
+          <span id="score-home">2</span>
+          <span class="mx-1 text-white/60">-</span>
+          <span id="score-away">1</span>
+          <div class="text-xs text-white/70 mt-1">پایان بازی</div>
+        </div>
+        <div class="flex items-center gap-2 minw0">
+          <div class="font-extrabold truncate">مارسی</div>
+          <span class="w-8 h-8 rounded bg-cyan-400 block"></span>
+        </div>
+      </div>
+    </header>
 
-<body>
+    <!-- Key highlights -->
+    <section class="mt-4 grid grid-cols-2 gap-3">
+      <div class="glass rounded-2xl p-3 soft">
+        <div class="text-[11px] text-white/60">مالکیت</div>
+        <div class="mt-2 flex items-end justify-between">
+          <div>
+            <div class="text-xl font-extrabold" id="pos-rm">58%</div>
+            <div class="text-[11px] text-white/60 mt-1">رئال</div>
+          </div>
+          <div class="text-2xl opacity-70">⚽️</div>
+          <div class="text-right">
+            <div class="text-xl font-extrabold" id="pos-om">42%</div>
+            <div class="text-[11px] text-white/60 mt-1">مارسی</div>
+          </div>
+        </div>
+        <div class="bar bg-white/10 mt-3 overflow-hidden">
+          <div id="pos-rm-bar" class="h-full bg-white/80" style="width:58%"></div>
+        </div>
+      </div>
+      <div class="glass rounded-2xl p-3 soft">
+        <div class="text-[11px] text-white/60">شوت‌ها (در چارچوب)</div>
+        <div class="mt-2 grid grid-cols-2 gap-3 text-center">
+          <div class="bg-white/5 rounded-xl p-2">
+            <div class="text-xs text-white/60">رئال</div>
+            <div class="text-xl font-extrabold"><span id="shots-rm">12</span> <span class="text-white/60 text-sm">(<span id="sot-rm">6</span>)</span></div>
+          </div>
+          <div class="bg-white/5 rounded-xl p-2">
+            <div class="text-xs text-white/60">مارسی</div>
+            <div class="text-xl font-extrabold"><span id="shots-om">9</span> <span class="text-white/60 text-sm">(<span id="sot-om">4</span>)</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-    <div class="container">
-        <aside class="sidebar">
-            <div class="profile-pic"></div>
-            <button class="sidebar-btn" id="username">Username</button>
-            <button class="sidebar-btn" onclick="showProducts()">Products</button>
-            <button class="sidebar-btn" onclick="showHistory()">History</button>
-            <button class="sidebar-btn" onclick="showForm()">Form</button>
-            <button class="sidebar-btn" id="logout">Logout</button>
-        </aside>
-
-        <main class="main-content">
-            <header class="header">
-                <div class="page-name">Page Name</div>
-                <div class="user-icon"></div>
-            </header>
-
-            <section id="content" class="content">
-            </section>
-        </main>
-    </div>
-
-    <script>
-        function showProducts() {
-            const content = document.getElementById('content');
-            content.innerHTML = `
-      <h2>Products</h2>
-      <ul>
-        <li>Product 1</li>
-        <li>Product 2</li>
-        <li>Product 3</li>
-        <li>Product 4</li>
+    <!-- Team stats list -->
+    <section class="mt-4 glass rounded-2xl p-3 soft">
+      <div class="flex items-center justify-between text-xs text-white/60 px-1">
+        <span>رئال</span>
+        <span>آمار کل بازی</span>
+        <span>مارسی</span>
+      </div>
+      <ul id="stats" class="mt-2 space-y-2">
+        <!-- سطرهای آمار اینجا ساخته می‌شوند -->
       </ul>
-    `;
+    </section>
+
+    <!-- Notes -->
+    <section class="mt-4 text-[11px] text-white/60">
+      
+    </section>
+  </main>
+
+  <script>
+    // داده‌های نمونه پایان بازی
+    const data = {
+      score: { rm: 2, om: 1 },
+      possession: { rm: 80, om: 20 }, // %
+      shots: { rm: 12, om: 9 },
+      shotsOnTarget: { rm: 6, om: 4 },
+      passesAcc: { rm: 89, om: 84 }, // %
+      corners: { rm: 5, om: 4 },
+      fouls: { rm: 8, om: 10 },
+      offsides: { rm: 2, om: 1 },
+      yellow: { rm: 1, om: 2 },
+      red: { rm: 0, om: 0 },
+      saves: { rm: 3, om: 4 },
+      xg: { rm: 1.9, om: 1.2 } // Expected Goals
+    };
+
+    // سطرهای آمار که باید نمایش داده شوند
+    // type: 'percent' یعنی مقدارها درصد هستند و مستقیم برای پهنای نوار استفاده می‌شوند
+    // type: 'count' یعنی مجموع دو تیم مبناست و از نسبت‌شان برای پهنای نوار استفاده می‌شود
+    const rows = [
+      { key:'possession', label:'مالکیت توپ', type:'percent', suffix:'%' },
+      { key:'passesAcc', label:'درصد پاس‌های صحیح', type:'percent', suffix:'%' },
+      { key:'shots', label:'شوت‌ها', type:'count' },
+      { key:'shotsOnTarget', label:'در چارچوب', type:'count' },
+      { key:'xg', label:'xG مورد انتظار', type:'count', fixed:1 },
+      { key:'corners', label:'کرنرها', type:'count' },
+      { key:'fouls', label:'خطاها', type:'count' },
+      { key:'offsides', label:'آفساید', type:'count' },
+      { key:'yellow', label:'کارت زرد', type:'count' },
+      { key:'red', label:'کارت قرمز', type:'count' },
+      { key:'saves', label:'مهار دروازه‌بان', type:'count' },
+    ];
+
+    // مقداردهی سریع هدِر
+    document.getElementById('score-home').textContent = data.score.rm;
+    document.getElementById('score-away').textContent = data.score.om;
+    document.getElementById('pos-rm').textContent = data.possession.rm + '%';
+    document.getElementById('pos-om').textContent = data.possession.om + '%';
+    document.getElementById('pos-rm-bar').style.width = Math.max(0, Math.min(100, data.possession.rm)) + '%';
+    document.getElementById('shots-rm').textContent = data.shots.rm;
+    document.getElementById('shots-om').textContent = data.shots.om;
+    document.getElementById('sot-rm').textContent = data.shotsOnTarget.rm;
+    document.getElementById('sot-om').textContent = data.shotsOnTarget.om;
+
+    // ساخت سطر آمار
+    const list = document.getElementById('stats');
+
+    function makeRow({label, rmVal, omVal, type='count', suffix='', fixed=null}){
+      const li = document.createElement('li');
+      li.className = 'row bg-white/5 px-3 py-2';
+
+      // محاسبه پهنای نوار
+      let rmWidth = 50, omWidth = 50;
+      if (type === 'percent') {
+        rmWidth = clamp(rmVal, 0, 100);
+        omWidth = clamp(omVal, 0, 100);
+        const sum = rmWidth + omWidth;
+        if (sum > 100) { // نرمال‌سازی ملایم اگر جمع > 100
+          rmWidth = (rmWidth / sum) * 100;
+          omWidth = 100 - rmWidth;
         }
-
-        function showHistory() {
-            const content = document.getElementById('content');
-            content.innerHTML = `
-      <h2>Purchase History</h2>
-      <table border="1" cellpadding="10">
-        <tr>
-          <th>Product Name</th>
-          <th>Price</th>
-          <th>Date</th>
-        </tr>
-        <tr>
-          <td>Product 1</td>
-          <td>$10</td>
-          <td>2025-04-27</td>
-        </tr>
-        <tr>
-          <td>Product 2</td>
-          <td>$20</td>
-          <td>2025-04-26</td>
-        </tr>
-      </table>
-    `;
+      } else {
+        const total = (rmVal||0) + (omVal||0);
+        if (total === 0) {
+          rmWidth = 50; omWidth = 50;
+        } else {
+          rmWidth = (rmVal / total) * 100;
+          omWidth = 100 - rmWidth;
         }
+      }
 
-        function showForm() {
-            const content = document.getElementById('content');
-            content.innerHTML = `
-      <h2>Submit Form</h2>
-      <form onsubmit="submitForm(event)">
-        <label>Product Name:</label><br>
-        <input type="text" name="product" required><br><br>
-        <label>Price:</label><br>
-        <input type="number" name="price" required><br><br>
-        <button type="submit">Submit</button>
-      </form>
-    `;
-        }
+      const showRm = fixed != null ? Number(rmVal).toFixed(fixed) : rmVal;
+      const showOm = fixed != null ? Number(omVal).toFixed(fixed) : omVal;
 
-        function submitForm(event) {
-            event.preventDefault();
-            alert('Form submitted successfully!');
-        }
-    </script>
+      li.innerHTML = `
+        <div class="flex items-center justify-between gap-2 text-sm">
+          <div class="minw0 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-white inline-block"></span>
+            <span class="font-bold">رئال</span>
+            <span class="text-white/80">${showRm}${suffix}</span>
+          </div>
+          <div class="text-white/80 text-xs">${label}</div>
+          <div class="minw0 flex items-center gap-2">
+            <span class="text-white/80">${showOm}${suffix}</span>
+            <span class="font-bold">مارسی</span>
+            <span class="w-2 h-2 rounded-full bg-cyan-400 inline-block"></span>
+          </div>
+        </div>
+        <div class="bar bg-white/10 mt-2 flex">
+          <div class="h-full bg-white/80" style="width:${rmWidth}%;"></div>
+          <div class="h-full bg-cyan-400/80" style="width:${omWidth}%;"></div>
+        </div>
+      `;
+      return li;
+    }
 
-</body>
+    function clamp(v,min,max){ return Math.max(min, Math.min(max, v)); }
 
+    // رندر همه ردیف‌ها
+    const frag = document.createDocumentFragment();
+    rows.forEach(r=>{
+      const rmVal = data[r.key].rm;
+      const omVal = data[r.key].om;
+      frag.appendChild(makeRow({
+        label:r.label,
+        rmVal, omVal,
+        type:r.type,
+        suffix:r.suffix||'',
+        fixed: r.fixed ?? null
+      }));
+    });
+    list.appendChild(frag);
+  </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9811b32f732fae32',t:'MTc1ODIwNzQ5MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
+
