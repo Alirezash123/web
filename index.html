@@ -1,213 +1,381 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>خلاصه آمار پایان بازی | رئال مادرید × مارسی - Canva Code</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ترکیب رئال مادرید و مارسی - Canva Code</title>
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font -->
   <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;800&display=swap" rel="stylesheet">
   <style>
     :root{
-      --ink:#0b1220;
-      --rm:#ffffff;
-      --om:#2bb3ff;
+      --pitch-green-1:#0f6d3f;
+      --pitch-green-2:#0b5a34;
+      --line:#ffffffCC;
+      --rm:#f3f4f6;    /* Real Madrid white */
+      --rm-accent:#b59a38; /* gold */
+      --om:#2bb3ff;    /* Marseille blue */
+      --om-accent:#ffffff;
     }
-    body{ font-family:'Vazirmatn',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; }
-    .soft{ box-shadow: 0 10px 30px rgba(0,0,0,.18); }
-    .glass{ background: rgba(255,255,255,.06); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
-    .row{ border-radius: 16px; }
-    .bar{ height:10px; border-radius:999px; overflow:hidden; }
-    .minw0{ min-width: 0; } /* کمک به جلوگیری از بیرون‌زدن متن */
+    body{ font-family: 'Vazirmatn', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+    /* Pitch styling with stripes and markings */
+    .pitch {
+      background:
+        radial-gradient(circle 58px at 50% 50%, transparent 57px, var(--line) 58px, var(--line) 60px, transparent 61px),
+        linear-gradient(to bottom, transparent calc(50% - 1px), var(--line) calc(50% - 1px), var(--line) calc(50% + 1px), transparent calc(50% + 1px)),
+        linear-gradient(to right, var(--line) 1px, transparent 1px) left top/100% 100% no-repeat,
+        repeating-linear-gradient(to right, rgba(255,255,255,0.05) 0 10px, rgba(0,0,0,0.05) 10px 20px),
+        linear-gradient(180deg, var(--pitch-green-1), var(--pitch-green-2));
+      border: 2px solid #ffffff66;
+      position: relative;
+      overflow: hidden;
+    }
+    .goal-box {
+      position: absolute;
+      left: 10px; right: 10px;
+      height: 64px;
+      border-left: 2px solid var(--line);
+      border-right: 2px solid var(--line);
+    }
+    .goal-box.top { top: 12px; border-top: 2px solid var(--line); }
+    .goal-box.bottom { bottom: 12px; border-bottom: 2px solid var(--line); }
+    /* Player chip */
+    .chip {
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      transition: transform .15s ease, box-shadow .15s ease;
+      user-select: none;
+      touch-action: manipulation;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .chip:active { transform: translateY(1px) scale(0.98); }
+    /* Jersey SVG tint with team colors */
+    .jersey-rm .fill-main { fill: var(--rm) }
+    .jersey-rm .fill-accent { fill: var(--rm-accent) }
+    .jersey-om .fill-main { fill: var(--om) }
+    .jersey-om .fill-accent { fill: var(--om-accent) }
+    /* Nice shadow */
+    .soft-shadow { box-shadow: 0 8px 24px rgba(0,0,0,.18); }
+    /* Segmented control */
+    .seg-active { background: linear-gradient(135deg, #3b82f6, #22d3ee); color: #fff; }
+    /* Bottom sheet */
+    .sheet {
+      transition: transform .25s ease, opacity .25s ease;
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    .sheet.open {
+      transform: translateY(0%);
+      opacity: 1;
+    }
   </style>
 </head>
-<body class="min-h-screen bg-gradient-to-b from-sky-900 via-slate-900 to-slate-950 text-white">
-  <main class="max-w-md mx-auto w-full px-5 py-6">
+<body class="min-h-screen bg-gradient-to-b from-sky-900 via-slate-900 to-slate-950 text-white flex flex-col">
+  <main class="flex flex-col max-w-md mx-auto w-full px-4">
     <!-- Header -->
-    <header class="glass rounded-2xl p-4 soft">
-      <div class="flex items-center justify-between gap-3">
-        <div class="flex items-center gap-2 minw0">
-          <span class="w-8 h-8 rounded bg-white block"></span>
-          <div class="font-extrabold truncate">رئال </div>
+    <header class="pt-5 pb-3">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-full grid place-items-center bg-white text-slate-900 font-extrabold">RM</div>
+          <svg width="28" height="28" viewBox="0 0 24 24" class="text-white/70"><path fill="currentColor" d="M3 12h18" opacity=".5"/><path fill="currentColor" d="m13.5 5l5.5 7l-5.5 7h-3L16 12L10.5 5z"/></svg>
+          <div class="w-9 h-9 rounded-full grid place-items-center bg-cyan-400 text-slate-900 font-extrabold">OM</div>
         </div>
-        <div class="text-3xl font-extrabold tracking-tight text-center">
-          <span id="score-home">2</span>
-          <span class="mx-1 text-white/60">-</span>
-          <span id="score-away">1</span>
-          <div class="text-xs text-white/70 mt-1">پایان بازی</div>
-        </div>
-        <div class="flex items-center gap-2 minw0">
-          <div class="font-extrabold truncate">مارسی</div>
-          <span class="w-8 h-8 rounded bg-cyan-400 block"></span>
+        <div class="text-right">
+          <p class="text-xs text-white/60">نمایش چیدمان</p>
+          <h1 class="text-lg font-extrabold tracking-tight">رئال مادرید × مارسی</h1>
         </div>
       </div>
     </header>
 
-    <!-- Key highlights -->
-    <section class="mt-4 grid grid-cols-2 gap-3">
-      <div class="glass rounded-2xl p-3 soft">
-        <div class="text-[11px] text-white/60">مالکیت</div>
-        <div class="mt-2 flex items-end justify-between">
-          <div>
-            <div class="text-xl font-extrabold" id="pos-rm">58%</div>
-            <div class="text-[11px] text-white/60 mt-1">رئال</div>
-          </div>
-          <div class="text-2xl opacity-70">⚽️</div>
-          <div class="text-right">
-            <div class="text-xl font-extrabold" id="pos-om">42%</div>
-            <div class="text-[11px] text-white/60 mt-1">مارسی</div>
-          </div>
-        </div>
-        <div class="bar bg-white/10 mt-3 overflow-hidden">
-          <div id="pos-rm-bar" class="h-full bg-white/80" style="width:58%"></div>
-        </div>
-      </div>
-      <div class="glass rounded-2xl p-3 soft">
-        <div class="text-[11px] text-white/60">شوت‌ها (در چارچوب)</div>
-        <div class="mt-2 grid grid-cols-2 gap-3 text-center">
-          <div class="bg-white/5 rounded-xl p-2">
-            <div class="text-xs text-white/60">رئال</div>
-            <div class="text-xl font-extrabold"><span id="shots-rm">12</span> <span class="text-white/60 text-sm">(<span id="sot-rm">6</span>)</span></div>
-          </div>
-          <div class="bg-white/5 rounded-xl p-2">
-            <div class="text-xs text-white/60">مارسی</div>
-            <div class="text-xl font-extrabold"><span id="shots-om">9</span> <span class="text-white/60 text-sm">(<span id="sot-om">4</span>)</span></div>
-          </div>
+    <!-- Controls -->
+    <section class="mb-4">
+      <div class="bg-white/5 rounded-2xl p-2 soft-shadow">
+        <div class="grid grid-cols-2 gap-2">
+          <button id="tab-rm" class="tab-btn px-3 py-2 rounded-xl text-sm font-bold text-white/80 hover:text-white transition seg-active">رئال</button>
+          <button id="tab-om" class="tab-btn px-3 py-2 rounded-xl text-sm font-bold text-white/80 hover:text-white transition">مارسی</button>
         </div>
       </div>
     </section>
 
-    <!-- Team stats list -->
-    <section class="mt-4 glass rounded-2xl p-3 soft">
-      <div class="flex items-center justify-between text-xs text-white/60 px-1">
-        <span>رئال</span>
-        <span>آمار کل بازی</span>
-        <span>مارسی</span>
+    <!-- Pitch -->
+    <section class="py-4">
+      <div id="pitchWrap" class="pitch rounded-3xl soft-shadow mx-auto w-full" style="height: 72vh; max-height: 740px;">
+        <div class="goal-box top"></div>
+        <div class="goal-box bottom"></div>
+        <div id="lines" class="absolute inset-3 flex flex-col justify-between"></div>
       </div>
-      <ul id="stats" class="mt-2 space-y-2">
-        <!-- سطرهای آمار اینجا ساخته می‌شوند -->
-      </ul>
     </section>
 
-    <!-- Notes -->
-    <section class="mt-4 text-[11px] text-white/60">
-      
+    <!-- Legend -->
+    <section class="pb-5">
+      <div class="flex items-center justify-between text-xs">
+        <div class="flex items-center gap-2">
+          <span class="inline-flex w-3.5 h-3.5 rounded-full ring-2 ring-white/30" style="background: var(--rm)"></span>
+          <span class="text-white/70">رئال</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="inline-flex w-3.5 h-3.5 rounded-full ring-2 ring-white/30" style="background: var(--om)"></span>
+          <span class="text-white/70">مارسی</span>
+        </div>
+      </div>
     </section>
   </main>
 
+  <!-- Player Sheet -->
+  <div id="sheetBack" class="fixed inset-0 bg-black/40 opacity-0 pointer-events-none transition"></div>
+  <div id="playerSheet" class="sheet fixed left-0 right-0 bottom-0 bg-slate-900 rounded-t-3xl p-5 border-t border-white/10 max-w-md mx-auto">
+    <div class="w-12 h-1.5 bg-white/20 rounded-full mx-auto mb-4"></div>
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div id="sheetJersey" class="w-12 h-12 rounded-2xl grid place-items-center bg-white/5"></div>
+        <div>
+          <div id="sheetName" class="text-lg font-extrabold"></div>
+          <div id="sheetMeta" class="text-white/60 text-xs"></div>
+        </div>
+      </div>
+    </div>
+    <div class="mt-4 grid grid-cols-3 gap-3 text-center">
+      <div class="bg-white/5 rounded-2xl p-3">
+        <div class="text-xs text-white/60">تیم</div>
+        <div id="sheetTeam" class="font-bold mt-1"></div>
+      </div>
+      <div class="bg-white/5 rounded-2xl p-3">
+        <div class="text-xs text-white/60">پست</div>
+        <div id="sheetRole" class="font-bold mt-1"></div>
+      </div>
+      <div class="bg-white/5 rounded-2xl p-3">
+        <div class="text-xs text-white/60">شماره</div>
+        <div id="sheetNumber" class="font-bold mt-1"></div>
+      </div>
+    </div>
+    <div class="mt-4 text-xs text-white/60">
+      نکته: با لمس هر بازیکن، جزئیات را اینجا می‌بینید.
+    </div>
+    <div class="mt-5 flex items-center justify-end gap-3">
+      <button id="closeSheet" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-sm">بستن</button>
+    </div>
+  </div>
+
   <script>
-    // داده‌های نمونه پایان بازی
-    const data = {
-      score: { rm: 2, om: 1 },
-      possession: { rm: 80, om: 20 }, // %
-      shots: { rm: 12, om: 9 },
-      shotsOnTarget: { rm: 6, om: 4 },
-      passesAcc: { rm: 89, om: 84 }, // %
-      corners: { rm: 5, om: 4 },
-      fouls: { rm: 8, om: 10 },
-      offsides: { rm: 2, om: 1 },
-      yellow: { rm: 1, om: 2 },
-      red: { rm: 0, om: 0 },
-      saves: { rm: 3, om: 4 },
-      xg: { rm: 1.9, om: 1.2 } // Expected Goals
+    // Updated player data based on last match lineups (Real Madrid vs Marseille, Sep 16, 2025)
+    const Players = {
+      rm: {
+        GK: [{ id:'rm-courtois', n:'تیبو کورتوا', num:1 }],
+        DEF: [
+          { id:'rm-alexander-arnold', n:'ترنت الکساندر-آرنولد', num:12 },
+          { id:'rm-militao', n:'ادر میلیتائو', num:3 },
+          { id:'rm-huijsen', n:'دین هویجسن', num:24 },
+          { id:'rm-carreras', n:'آلوارو کارراس', num:20 },
+        ],
+        MID: [
+          { id:'rm-tchouameni', n:'اورلین چوامنی', num:14 },
+          { id:'rm-valverde', n:'فدریکو والورده', num:8 },
+          { id:'rm-mastantuono', n:'فرانکو ماستانتوونو', num:30 },
+        ],
+        ATT: [
+          { id:'rm-guler', n:'آردا گولر', num:15 },
+          { id:'rm-rodrygo', n:'رودریگو', num:11 },
+          { id:'rm-mbappe', n:'کیلیان امباپه', num:10 },
+        ],
+      },
+      om: {
+        GK: [{ id:'om-rulli', n:'خیرونیمو رولی', num:1 }],
+        DEF: [
+          { id:'om-pavard', n:'بنجامین پاوان', num:28 },
+          { id:'om-balerdi', n:'لئوناردو بالردی', num:5 },
+          { id:'om-medina', n:'فاکوندو مدینا', num:32 },
+          { id:'om-emerson', n:'امرسون', num:33 },
+        ],
+        MID: [
+          { id:'om-kondogbia', n:'ژوفری کوندوگبیا', num:19 },
+          { id:'om-hojbjerg', n:'پیر-امیلی هویبجerg', num:23 },
+          { id:'om-oriley', n:'مت اوریلی', num:17 },
+        ],
+        ATT: [
+          { id:'om-greenwood', n:'میسون گرینوود', num:10 },
+          { id:'om-weah', n:'تیموتی ویا', num:22 },
+          { id:'om-aubameyang', n:'پیر-امریک اوبامیانگ', num:97 },
+        ],
+      }
     };
 
-    // سطرهای آمار که باید نمایش داده شوند
-    // type: 'percent' یعنی مقدارها درصد هستند و مستقیم برای پهنای نوار استفاده می‌شوند
-    // type: 'count' یعنی مجموع دو تیم مبناست و از نسبت‌شان برای پهنای نوار استفاده می‌شود
-    const rows = [
-      { key:'possession', label:'مالکیت توپ', type:'percent', suffix:'%' },
-      { key:'passesAcc', label:'درصد پاس‌های صحیح', type:'percent', suffix:'%' },
-      { key:'shots', label:'شوت‌ها', type:'count' },
-      { key:'shotsOnTarget', label:'در چارچوب', type:'count' },
-      { key:'xg', label:'xG مورد انتظار', type:'count', fixed:1 },
-      { key:'corners', label:'کرنرها', type:'count' },
-      { key:'fouls', label:'خطاها', type:'count' },
-      { key:'offsides', label:'آفساید', type:'count' },
-      { key:'yellow', label:'کارت زرد', type:'count' },
-      { key:'red', label:'کارت قرمز', type:'count' },
-      { key:'saves', label:'مهار دروازه‌بان', type:'count' },
-    ];
+    // UI State
+    const state = {
+      mode: 'rm', // 'rm' | 'om'
+    };
 
-    // مقداردهی سریع هدِر
-    document.getElementById('score-home').textContent = data.score.rm;
-    document.getElementById('score-away').textContent = data.score.om;
-    document.getElementById('pos-rm').textContent = data.possession.rm + '%';
-    document.getElementById('pos-om').textContent = data.possession.om + '%';
-    document.getElementById('pos-rm-bar').style.width = Math.max(0, Math.min(100, data.possession.rm)) + '%';
-    document.getElementById('shots-rm').textContent = data.shots.rm;
-    document.getElementById('shots-om').textContent = data.shots.om;
-    document.getElementById('sot-rm').textContent = data.shotsOnTarget.rm;
-    document.getElementById('sot-om').textContent = data.shotsOnTarget.om;
+    // Fixed formation (4-3-3)
+    const formationTemplate = { DEF:4, MID:3, ATT:3 };
 
-    // ساخت سطر آمار
-    const list = document.getElementById('stats');
+    // Helpers
+    const $ = sel => document.querySelector(sel);
+    const linesEl = $('#lines');
 
-    function makeRow({label, rmVal, omVal, type='count', suffix='', fixed=null}){
-      const li = document.createElement('li');
-      li.className = 'row bg-white/5 px-3 py-2';
+    // Build lineup for a given team
+    function buildLineup(mode) {
+      const tmpl = formationTemplate;
+      const rows = [
+        { key:'ATT', count:tmpl.ATT },
+        { key:'MID', count:tmpl.MID },
+        { key:'DEF', count:tmpl.DEF },
+        { key:'GK', count:1 },
+      ];
 
-      // محاسبه پهنای نوار
-      let rmWidth = 50, omWidth = 50;
-      if (type === 'percent') {
-        rmWidth = clamp(rmVal, 0, 100);
-        omWidth = clamp(omVal, 0, 100);
-        const sum = rmWidth + omWidth;
-        if (sum > 100) { // نرمال‌سازی ملایم اگر جمع > 100
-          rmWidth = (rmWidth / sum) * 100;
-          omWidth = 100 - rmWidth;
-        }
-      } else {
-        const total = (rmVal||0) + (omVal||0);
-        if (total === 0) {
-          rmWidth = 50; omWidth = 50;
-        } else {
-          rmWidth = (rmVal / total) * 100;
-          omWidth = 100 - rmWidth;
-        }
+      // Fetch players per bucket
+      function pool(team) {
+        return {
+          GK: [...Players[team].GK],
+          DEF: [...Players[team].DEF],
+          MID: [...Players[team].MID],
+          ATT: [...Players[team].ATT],
+        };
       }
 
-      const showRm = fixed != null ? Number(rmVal).toFixed(fixed) : rmVal;
-      const showOm = fixed != null ? Number(omVal).toFixed(fixed) : omVal;
+      const src = pool(mode);
+      linesEl.innerHTML = '';
+      const container = document.createDocumentFragment();
 
-      li.innerHTML = `
-        <div class="flex items-center justify-between gap-2 text-sm">
-          <div class="minw0 flex items-center gap-2">
-            <span class="w-2 h-2 rounded-full bg-white inline-block"></span>
-            <span class="font-bold">رئال</span>
-            <span class="text-white/80">${showRm}${suffix}</span>
-          </div>
-          <div class="text-white/80 text-xs">${label}</div>
-          <div class="minw0 flex items-center gap-2">
-            <span class="text-white/80">${showOm}${suffix}</span>
-            <span class="font-bold">مارسی</span>
-            <span class="w-2 h-2 rounded-full bg-cyan-400 inline-block"></span>
-          </div>
-        </div>
-        <div class="bar bg-white/10 mt-2 flex">
-          <div class="h-full bg-white/80" style="width:${rmWidth}%;"></div>
-          <div class="h-full bg-cyan-400/80" style="width:${omWidth}%;"></div>
-        </div>
-      `;
-      return li;
+      rows.forEach(row => {
+        const line = document.createElement('div');
+        line.className = 'flex items-center justify-center gap-2 sm:gap-3 flex-wrap';
+
+        const count = row.count;
+        const pack = pickForRow(row.key, count, src, mode);
+
+        pack.forEach(pl => {
+          const chip = createPlayerChip(pl, mode);
+          line.appendChild(chip);
+        });
+
+        line.style.padding = '6px 6px';
+        container.appendChild(line);
+      });
+
+      linesEl.appendChild(container);
     }
 
-    function clamp(v,min,max){ return Math.max(min, Math.min(max, v)); }
+    function takeMany(arr, n) {
+      const res = [];
+      for (let i = 0; i < n && arr.length > 0; i++) {
+        res.push(arr.shift());
+      }
+      return res;
+    }
 
-    // رندر همه ردیف‌ها
-    const frag = document.createDocumentFragment();
-    rows.forEach(r=>{
-      const rmVal = data[r.key].rm;
-      const omVal = data[r.key].om;
-      frag.appendChild(makeRow({
-        label:r.label,
-        rmVal, omVal,
-        type:r.type,
-        suffix:r.suffix||'',
-        fixed: r.fixed ?? null
-      }));
-    });
-    list.appendChild(frag);
+    function pickForRow(key, count, src, mode) {
+      let candidates = [...src[key]];
+      if (candidates.length < count) {
+        if (key === 'DEF') candidates = candidates.concat(src.MID || []);
+        if (key === 'MID') candidates = candidates.concat(src.DEF || [], src.ATT || []);
+        if (key === 'ATT') candidates = candidates.concat(src.MID || []);
+        if (key === 'GK') candidates = candidates.concat(src.DEF || []);
+      }
+
+      const pick = takeMany(candidates, count);
+      pick.forEach(p => {
+        ['GK', 'DEF', 'MID', 'ATT'].forEach(k => {
+          const idx = src[k].findIndex(x => x.id === p.id);
+          if (idx > -1) src[k].splice(idx, 1);
+        });
+      });
+
+      return pick.map(p => ({ ...p, team: mode, role: key }));
+    }
+
+    function createPlayerChip(player, mode) {
+      const btn = document.createElement('button');
+      btn.className = 'chip relative flex items-center gap-2 px-3 py-2 rounded-2xl bg-white/10 hover:bg-white/15 hover:shadow-lg transition soft-shadow max-w-[140px]';
+
+      const jerseyWrap = document.createElement('div');
+      jerseyWrap.className = 'w-8 h-8 rounded-xl grid place-items-center bg-white/5';
+      jerseyWrap.innerHTML = jerseySVG(player.team);
+      btn.appendChild(jerseyWrap);
+
+      const name = document.createElement('div');
+      name.className = 'text-sm font-bold text-white whitespace-nowrap overflow-hidden text-overflow-ellipsis';
+      name.textContent = player.n;
+      btn.appendChild(name);
+
+      const num = document.createElement('span');
+      num.className = 'ml-1 text-[11px] text-white/60';
+      num.textContent = ' #' + (player.num ?? '—');
+      btn.appendChild(num);
+
+      btn.addEventListener('click', () => openSheet(player));
+      return btn;
+    }
+
+    function jerseySVG(team) {
+      const cls = team === 'rm' ? 'jersey-rm' : 'jersey-om';
+      return `
+        <svg class="${cls}" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+          <path class="fill-accent" d="M7 5l3-2h4l3 2l3 3l-3 3l-1-1v7a2 2 0 0 1-2 2h-6a2 2 0 0 1-2-2V10l-1 1L4 8l3-3z"/>
+          <path class="fill-main" d="M8 10l1-1v8h6v-8l1 1v8.5A1.5 1.5 0 0 1 14.5 20h-5A1.5 1.5 0 0 1 8 18.5V10z"/>
+        </svg>
+      `;
+    }
+
+    // Bottom sheet controls
+    const sheet = $('#playerSheet');
+    const sheetBack = $('#sheetBack');
+    const sheetName = $('#sheetName');
+    const sheetMeta = $('#sheetMeta');
+    const sheetTeam = $('#sheetTeam');
+    const sheetRole = $('#sheetRole');
+    const sheetNumber = $('#sheetNumber');
+    const sheetJersey = $('#sheetJersey');
+
+    let currentPlayer = null;
+
+    function openSheet(p) {
+      currentPlayer = p;
+      const teamLabel = p.team === 'rm' ? 'رئال مادرید' : 'مارسی';
+      sheetName.textContent = p.n;
+      sheetMeta.textContent = teamLabel + ' • ' + (p.role || guessRole(p.id));
+      sheetTeam.textContent = teamLabel;
+      sheetRole.textContent = p.role || guessRole(p.id);
+      sheetNumber.textContent = p.num || '—';
+      sheetJersey.innerHTML = '<div class="w-12 h-12 rounded-2xl grid place-items-center bg-white/5">' + jerseySVG(p.team) + '</div>';
+
+      sheet.classList.add('open');
+      sheetBack.classList.remove('pointer-events-none');
+      sheetBack.classList.add('backdrop');
+      sheetBack.style.opacity = '1';
+    }
+
+    function closeSheet() {
+      sheet.classList.remove('open');
+      sheetBack.style.opacity = '0';
+      sheetBack.classList.add('pointer-events-none');
+    }
+
+    $('#closeSheet').addEventListener('click', closeSheet);
+    sheetBack.addEventListener('click', closeSheet);
+
+    function guessRole(id) {
+      if (id.includes('courtois') || id.includes('rulli')) return 'دروازه‌بان';
+      if (id.includes('alexander-arnold') || id.includes('militao') || id.includes('huijsen') || id.includes('carreras') || id.includes('pavard') || id.includes('balerdi') || id.includes('medina') || id.includes('emerson')) return 'مدافع';
+      if (id.includes('tchouameni') || id.includes('valverde') || id.includes('mastantuono') || id.includes('kondogbia') || id.includes('hojbjerg') || id.includes('oriley')) return 'هافبک';
+      return 'مهاجم';
+    }
+
+    // Interactions
+    $('#tab-rm').addEventListener('click', () => setActiveTab('rm'));
+    $('#tab-om').addEventListener('click', () => setActiveTab('om'));
+
+    function setActiveTab(mode) {
+      state.mode = mode;
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('seg-active', 'text-white'));
+      if (mode === 'rm') $('#tab-rm').classList.add('seg-active');
+      if (mode === 'om') $('#tab-om').classList.add('seg-active');
+      buildLineup(state.mode);
+    }
+
+    // Initial render
+    buildLineup(state.mode);
   </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9811b32f732fae32',t:'MTc1ODIwNzQ5MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
 </html>
-
