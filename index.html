@@ -1,381 +1,219 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ترکیب رئال مادرید و مارسی - Canva Code</title>
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;800&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --pitch-green-1:#0f6d3f;
-      --pitch-green-2:#0b5a34;
-      --line:#ffffffCC;
-      --rm:#f3f4f6;    /* Real Madrid white */
-      --rm-accent:#b59a38; /* gold */
-      --om:#2bb3ff;    /* Marseille blue */
-      --om-accent:#ffffff;
-    }
-    body{ font-family: 'Vazirmatn', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
-    /* Pitch styling with stripes and markings */
-    .pitch {
-      background:
-        radial-gradient(circle 58px at 50% 50%, transparent 57px, var(--line) 58px, var(--line) 60px, transparent 61px),
-        linear-gradient(to bottom, transparent calc(50% - 1px), var(--line) calc(50% - 1px), var(--line) calc(50% + 1px), transparent calc(50% + 1px)),
-        linear-gradient(to right, var(--line) 1px, transparent 1px) left top/100% 100% no-repeat,
-        repeating-linear-gradient(to right, rgba(255,255,255,0.05) 0 10px, rgba(0,0,0,0.05) 10px 20px),
-        linear-gradient(180deg, var(--pitch-green-1), var(--pitch-green-2));
-      border: 2px solid #ffffff66;
-      position: relative;
-      overflow: hidden;
-    }
-    .goal-box {
-      position: absolute;
-      left: 10px; right: 10px;
-      height: 64px;
-      border-left: 2px solid var(--line);
-      border-right: 2px solid var(--line);
-    }
-    .goal-box.top { top: 12px; border-top: 2px solid var(--line); }
-    .goal-box.bottom { bottom: 12px; border-bottom: 2px solid var(--line); }
-    /* Player chip */
-    .chip {
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      transition: transform .15s ease, box-shadow .15s ease;
-      user-select: none;
-      touch-action: manipulation;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .chip:active { transform: translateY(1px) scale(0.98); }
-    /* Jersey SVG tint with team colors */
-    .jersey-rm .fill-main { fill: var(--rm) }
-    .jersey-rm .fill-accent { fill: var(--rm-accent) }
-    .jersey-om .fill-main { fill: var(--om) }
-    .jersey-om .fill-accent { fill: var(--om-accent) }
-    /* Nice shadow */
-    .soft-shadow { box-shadow: 0 8px 24px rgba(0,0,0,.18); }
-    /* Segmented control */
-    .seg-active { background: linear-gradient(135deg, #3b82f6, #22d3ee); color: #fff; }
-    /* Bottom sheet */
-    .sheet {
-      transition: transform .25s ease, opacity .25s ease;
-      transform: translateY(100%);
-      opacity: 0;
-    }
-    .sheet.open {
-      transform: translateY(0%);
-      opacity: 1;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فید اینستاگرام (نمایشی)</title>
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fafafa;
+            direction: rtl;
+        }
+
+        .instagram-feed {
+            max-width: 600px;
+            margin: 0 auto;
+            padding-top: 10px;
+        }
+
+        .post {
+            background-color: #fff;
+            border: 1px solid #dbdbdb;
+            border-radius: 3px;
+            margin-bottom: 20px;
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+        }
+
+        .profile-pic {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-left: 10px;
+            object-fit: cover;
+        }
+
+        .username {
+            font-weight: bold;
+        }
+
+        .post-info {
+            padding: 0 16px 10px;
+        }
+
+        .post-info p {
+            margin: 5px 0;
+        }
+
+        .post-date {
+            color: #999;
+            font-size: 12px;
+            margin-top: 10px !important;
+        }
+
+        .video-container, .image-container {
+            position: relative;
+            width: 100%;
+        }
+        
+        .post-media {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .post.video .post-media {
+            object-fit: cover;
+            height: 350px;
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .play-button {
+            color: #fff;
+            font-size: 70px;
+            opacity: 1;
+            transition: opacity 0.3s ease-in-out;
+            text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .play-button.hidden {
+            opacity: 0;
+        }
+
+        .sound-toggle {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            z-index: 20;
+            color: #fff;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+        }
+    </style>
 </head>
-<body class="min-h-screen bg-gradient-to-b from-sky-900 via-slate-900 to-slate-950 text-white flex flex-col">
-  <main class="flex flex-col max-w-md mx-auto w-full px-4">
-    <!-- Header -->
-    <header class="pt-5 pb-3">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center gap-3">
-          <div class="w-9 h-9 rounded-full grid place-items-center bg-white text-slate-900 font-extrabold">RM</div>
-          <svg width="28" height="28" viewBox="0 0 24 24" class="text-white/70"><path fill="currentColor" d="M3 12h18" opacity=".5"/><path fill="currentColor" d="m13.5 5l5.5 7l-5.5 7h-3L16 12L10.5 5z"/></svg>
-          <div class="w-9 h-9 rounded-full grid place-items-center bg-cyan-400 text-slate-900 font-extrabold">OM</div>
-        </div>
-        <div class="text-right">
-          <p class="text-xs text-white/60">نمایش چیدمان</p>
-          <h1 class="text-lg font-extrabold tracking-tight">رئال مادرید × مارسی</h1>
-        </div>
-      </div>
-    </header>
+<body>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-    <!-- Controls -->
-    <section class="mb-4">
-      <div class="bg-white/5 rounded-2xl p-2 soft-shadow">
-        <div class="grid grid-cols-2 gap-2">
-          <button id="tab-rm" class="tab-btn px-3 py-2 rounded-xl text-sm font-bold text-white/80 hover:text-white transition seg-active">رئال</button>
-          <button id="tab-om" class="tab-btn px-3 py-2 rounded-xl text-sm font-bold text-white/80 hover:text-white transition">مارسی</button>
-        </div>
-      </div>
-    </section>
+    <main class="instagram-feed">
+        <!-- پست‌ها به صورت پویا اینجا اضافه می‌شوند -->
+    </main>
 
-    <!-- Pitch -->
-    <section class="py-4">
-      <div id="pitchWrap" class="pitch rounded-3xl soft-shadow mx-auto w-full" style="height: 72vh; max-height: 740px;">
-        <div class="goal-box top"></div>
-        <div class="goal-box bottom"></div>
-        <div id="lines" class="absolute inset-3 flex flex-col justify-between"></div>
-      </div>
-    </section>
+    <script>
+        // دریافت داده‌ها از API
+        async function fetchPosts() {
+            try {
+                const response = await fetch('https://raw.githubusercontent.com/Alirezash123/RealApp/refs/heads/main/Realgram');
+                const posts = await response.json();
+                renderPosts(posts);
+            } catch (error) {
+                console.error('خطا در دریافت داده‌ها:', error);
+            }
+        }
 
-    <!-- Legend -->
-    <section class="pb-5">
-      <div class="flex items-center justify-between text-xs">
-        <div class="flex items-center gap-2">
-          <span class="inline-flex w-3.5 h-3.5 rounded-full ring-2 ring-white/30" style="background: var(--rm)"></span>
-          <span class="text-white/70">رئال</span>
-        </div>
-        <div class="flex items-center gap-2">
-          <span class="inline-flex w-3.5 h-3.5 rounded-full ring-2 ring-white/30" style="background: var(--om)"></span>
-          <span class="text-white/70">مارسی</span>
-        </div>
-      </div>
-    </section>
-  </main>
+        // رندر کردن پست‌ها
+        function renderPosts(posts) {
+            const feed = document.querySelector('.instagram-feed');
+            feed.innerHTML = ''; // پاک کردن محتوای قبلی
 
-  <!-- Player Sheet -->
-  <div id="sheetBack" class="fixed inset-0 bg-black/40 opacity-0 pointer-events-none transition"></div>
-  <div id="playerSheet" class="sheet fixed left-0 right-0 bottom-0 bg-slate-900 rounded-t-3xl p-5 border-t border-white/10 max-w-md mx-auto">
-    <div class="w-12 h-1.5 bg-white/20 rounded-full mx-auto mb-4"></div>
-    <div class="flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <div id="sheetJersey" class="w-12 h-12 rounded-2xl grid place-items-center bg-white/5"></div>
-        <div>
-          <div id="sheetName" class="text-lg font-extrabold"></div>
-          <div id="sheetMeta" class="text-white/60 text-xs"></div>
-        </div>
-      </div>
-    </div>
-    <div class="mt-4 grid grid-cols-3 gap-3 text-center">
-      <div class="bg-white/5 rounded-2xl p-3">
-        <div class="text-xs text-white/60">تیم</div>
-        <div id="sheetTeam" class="font-bold mt-1"></div>
-      </div>
-      <div class="bg-white/5 rounded-2xl p-3">
-        <div class="text-xs text-white/60">پست</div>
-        <div id="sheetRole" class="font-bold mt-1"></div>
-      </div>
-      <div class="bg-white/5 rounded-2xl p-3">
-        <div class="text-xs text-white/60">شماره</div>
-        <div id="sheetNumber" class="font-bold mt-1"></div>
-      </div>
-    </div>
-    <div class="mt-4 text-xs text-white/60">
-      نکته: با لمس هر بازیکن، جزئیات را اینجا می‌بینید.
-    </div>
-    <div class="mt-5 flex items-center justify-end gap-3">
-      <button id="closeSheet" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-sm">بستن</button>
-    </div>
-  </div>
+            // معکوس کردن آرایه پست‌ها برای نمایش جدیدترین در بالا
+            const reversedPosts = [...posts].reverse();
 
-  <script>
-    // Updated player data based on last match lineups (Real Madrid vs Marseille, Sep 16, 2025)
-    const Players = {
-      rm: {
-        GK: [{ id:'rm-courtois', n:'تیبو کورتوا', num:1 }],
-        DEF: [
-          { id:'rm-alexander-arnold', n:'ترنت الکساندر-آرنولد', num:12 },
-          { id:'rm-militao', n:'ادر میلیتائو', num:3 },
-          { id:'rm-huijsen', n:'دین هویجسن', num:24 },
-          { id:'rm-carreras', n:'آلوارو کارراس', num:20 },
-        ],
-        MID: [
-          { id:'rm-tchouameni', n:'اورلین چوامنی', num:14 },
-          { id:'rm-valverde', n:'فدریکو والورده', num:8 },
-          { id:'rm-mastantuono', n:'فرانکو ماستانتوونو', num:30 },
-        ],
-        ATT: [
-          { id:'rm-guler', n:'آردا گولر', num:15 },
-          { id:'rm-rodrygo', n:'رودریگو', num:11 },
-          { id:'rm-mbappe', n:'کیلیان امباپه', num:10 },
-        ],
-      },
-      om: {
-        GK: [{ id:'om-rulli', n:'خیرونیمو رولی', num:1 }],
-        DEF: [
-          { id:'om-pavard', n:'بنجامین پاوان', num:28 },
-          { id:'om-balerdi', n:'لئوناردو بالردی', num:5 },
-          { id:'om-medina', n:'فاکوندو مدینا', num:32 },
-          { id:'om-emerson', n:'امرسون', num:33 },
-        ],
-        MID: [
-          { id:'om-kondogbia', n:'ژوفری کوندوگبیا', num:19 },
-          { id:'om-hojbjerg', n:'پیر-امیلی هویبجerg', num:23 },
-          { id:'om-oriley', n:'مت اوریلی', num:17 },
-        ],
-        ATT: [
-          { id:'om-greenwood', n:'میسون گرینوود', num:10 },
-          { id:'om-weah', n:'تیموتی ویا', num:22 },
-          { id:'om-aubameyang', n:'پیر-امریک اوبامیانگ', num:97 },
-        ],
-      }
-    };
+            reversedPosts.forEach(post => {
+                const isVideo = post.Type === 'Video';
+                const postElement = document.createElement('article');
+                postElement.classList.add('post');
+                if (isVideo) postElement.classList.add('video');
 
-    // UI State
-    const state = {
-      mode: 'rm', // 'rm' | 'om'
-    };
+                postElement.innerHTML = `
+                    <div class="post-header">
+                        <img src="${post.Profile_icon}" alt="profile picture" class="profile-pic">
+                        <span class="username">${post.Profile_name}</span>
+                    </div>
+                    <div class="${isVideo ? 'video-container' : 'image-container'}">
+                        ${isVideo ? `
+                            <video class="post-media" loop playsinline muted poster="${post.Picture}">
+                                <source src="${post.Video}" type="video/mp4">
+                            </video>
+                            <div class="video-overlay">
+                                <i class="fa-solid fa-circle-play play-button"></i>
+                            </div>
+                            <div class="sound-toggle">
+                                <i class="fa-solid fa-volume-xmark"></i>
+                            </div>
+                        ` : `
+                            <img src="${post.Picture}" alt="post image" class="post-media">
+                        `}
+                    </div>
+                    <div class="post-info">
+                        <p><strong>${post.Profile_name}</strong> ${post.Caption}</p>
+                        <p class="post-date">${post.Date}</p>
+                    </div>
+                `;
 
-    // Fixed formation (4-3-3)
-    const formationTemplate = { DEF:4, MID:3, ATT:3 };
+                feed.appendChild(postElement);
+            });
 
-    // Helpers
-    const $ = sel => document.querySelector(sel);
-    const linesEl = $('#lines');
+            // افزودن رویدادها برای ویدیوها
+            const videoPosts = document.querySelectorAll('.post.video');
+            videoPosts.forEach(post => {
+                const video = post.querySelector('.post-media');
+                const overlay = post.querySelector('.video-overlay');
+                const playButton = post.querySelector('.play-button');
+                const soundToggle = post.querySelector('.sound-toggle');
 
-    // Build lineup for a given team
-    function buildLineup(mode) {
-      const tmpl = formationTemplate;
-      const rows = [
-        { key:'ATT', count:tmpl.ATT },
-        { key:'MID', count:tmpl.MID },
-        { key:'DEF', count:tmpl.DEF },
-        { key:'GK', count:1 },
-      ];
+                overlay.addEventListener('click', () => {
+                    if (video.paused) {
+                        video.play();
+                        playButton.classList.add('hidden');
+                    } else {
+                        video.pause();
+                        playButton.classList.remove('hidden');
+                    }
+                });
 
-      // Fetch players per bucket
-      function pool(team) {
-        return {
-          GK: [...Players[team].GK],
-          DEF: [...Players[team].DEF],
-          MID: [...Players[team].MID],
-          ATT: [...Players[team].ATT],
-        };
-      }
+                soundToggle.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    video.muted = !video.muted;
+                    soundToggle.innerHTML = video.muted
+                        ? '<i class="fa-solid fa-volume-xmark"></i>'
+                        : '<i class="fa-solid fa-volume-high"></i>';
+                });
 
-      const src = pool(mode);
-      linesEl.innerHTML = '';
-      const container = document.createDocumentFragment();
+                video.addEventListener('ended', () => {
+                    playButton.classList.remove('hidden');
+                });
+            });
+        }
 
-      rows.forEach(row => {
-        const line = document.createElement('div');
-        line.className = 'flex items-center justify-center gap-2 sm:gap-3 flex-wrap';
-
-        const count = row.count;
-        const pack = pickForRow(row.key, count, src, mode);
-
-        pack.forEach(pl => {
-          const chip = createPlayerChip(pl, mode);
-          line.appendChild(chip);
-        });
-
-        line.style.padding = '6px 6px';
-        container.appendChild(line);
-      });
-
-      linesEl.appendChild(container);
-    }
-
-    function takeMany(arr, n) {
-      const res = [];
-      for (let i = 0; i < n && arr.length > 0; i++) {
-        res.push(arr.shift());
-      }
-      return res;
-    }
-
-    function pickForRow(key, count, src, mode) {
-      let candidates = [...src[key]];
-      if (candidates.length < count) {
-        if (key === 'DEF') candidates = candidates.concat(src.MID || []);
-        if (key === 'MID') candidates = candidates.concat(src.DEF || [], src.ATT || []);
-        if (key === 'ATT') candidates = candidates.concat(src.MID || []);
-        if (key === 'GK') candidates = candidates.concat(src.DEF || []);
-      }
-
-      const pick = takeMany(candidates, count);
-      pick.forEach(p => {
-        ['GK', 'DEF', 'MID', 'ATT'].forEach(k => {
-          const idx = src[k].findIndex(x => x.id === p.id);
-          if (idx > -1) src[k].splice(idx, 1);
-        });
-      });
-
-      return pick.map(p => ({ ...p, team: mode, role: key }));
-    }
-
-    function createPlayerChip(player, mode) {
-      const btn = document.createElement('button');
-      btn.className = 'chip relative flex items-center gap-2 px-3 py-2 rounded-2xl bg-white/10 hover:bg-white/15 hover:shadow-lg transition soft-shadow max-w-[140px]';
-
-      const jerseyWrap = document.createElement('div');
-      jerseyWrap.className = 'w-8 h-8 rounded-xl grid place-items-center bg-white/5';
-      jerseyWrap.innerHTML = jerseySVG(player.team);
-      btn.appendChild(jerseyWrap);
-
-      const name = document.createElement('div');
-      name.className = 'text-sm font-bold text-white whitespace-nowrap overflow-hidden text-overflow-ellipsis';
-      name.textContent = player.n;
-      btn.appendChild(name);
-
-      const num = document.createElement('span');
-      num.className = 'ml-1 text-[11px] text-white/60';
-      num.textContent = ' #' + (player.num ?? '—');
-      btn.appendChild(num);
-
-      btn.addEventListener('click', () => openSheet(player));
-      return btn;
-    }
-
-    function jerseySVG(team) {
-      const cls = team === 'rm' ? 'jersey-rm' : 'jersey-om';
-      return `
-        <svg class="${cls}" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
-          <path class="fill-accent" d="M7 5l3-2h4l3 2l3 3l-3 3l-1-1v7a2 2 0 0 1-2 2h-6a2 2 0 0 1-2-2V10l-1 1L4 8l3-3z"/>
-          <path class="fill-main" d="M8 10l1-1v8h6v-8l1 1v8.5A1.5 1.5 0 0 1 14.5 20h-5A1.5 1.5 0 0 1 8 18.5V10z"/>
-        </svg>
-      `;
-    }
-
-    // Bottom sheet controls
-    const sheet = $('#playerSheet');
-    const sheetBack = $('#sheetBack');
-    const sheetName = $('#sheetName');
-    const sheetMeta = $('#sheetMeta');
-    const sheetTeam = $('#sheetTeam');
-    const sheetRole = $('#sheetRole');
-    const sheetNumber = $('#sheetNumber');
-    const sheetJersey = $('#sheetJersey');
-
-    let currentPlayer = null;
-
-    function openSheet(p) {
-      currentPlayer = p;
-      const teamLabel = p.team === 'rm' ? 'رئال مادرید' : 'مارسی';
-      sheetName.textContent = p.n;
-      sheetMeta.textContent = teamLabel + ' • ' + (p.role || guessRole(p.id));
-      sheetTeam.textContent = teamLabel;
-      sheetRole.textContent = p.role || guessRole(p.id);
-      sheetNumber.textContent = p.num || '—';
-      sheetJersey.innerHTML = '<div class="w-12 h-12 rounded-2xl grid place-items-center bg-white/5">' + jerseySVG(p.team) + '</div>';
-
-      sheet.classList.add('open');
-      sheetBack.classList.remove('pointer-events-none');
-      sheetBack.classList.add('backdrop');
-      sheetBack.style.opacity = '1';
-    }
-
-    function closeSheet() {
-      sheet.classList.remove('open');
-      sheetBack.style.opacity = '0';
-      sheetBack.classList.add('pointer-events-none');
-    }
-
-    $('#closeSheet').addEventListener('click', closeSheet);
-    sheetBack.addEventListener('click', closeSheet);
-
-    function guessRole(id) {
-      if (id.includes('courtois') || id.includes('rulli')) return 'دروازه‌بان';
-      if (id.includes('alexander-arnold') || id.includes('militao') || id.includes('huijsen') || id.includes('carreras') || id.includes('pavard') || id.includes('balerdi') || id.includes('medina') || id.includes('emerson')) return 'مدافع';
-      if (id.includes('tchouameni') || id.includes('valverde') || id.includes('mastantuono') || id.includes('kondogbia') || id.includes('hojbjerg') || id.includes('oriley')) return 'هافبک';
-      return 'مهاجم';
-    }
-
-    // Interactions
-    $('#tab-rm').addEventListener('click', () => setActiveTab('rm'));
-    $('#tab-om').addEventListener('click', () => setActiveTab('om'));
-
-    function setActiveTab(mode) {
-      state.mode = mode;
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('seg-active', 'text-white'));
-      if (mode === 'rm') $('#tab-rm').classList.add('seg-active');
-      if (mode === 'om') $('#tab-om').classList.add('seg-active');
-      buildLineup(state.mode);
-    }
-
-    // Initial render
-    buildLineup(state.mode);
-  </script>
+        // اجرای تابع دریافت پست‌ها هنگام بارگذاری صفحه
+        document.addEventListener('DOMContentLoaded', fetchPosts);
+    </script>
 </body>
 </html>
