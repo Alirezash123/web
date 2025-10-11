@@ -3,217 +3,288 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>فید اینستاگرام (نمایشی)</title>
-    
+    <title>صفحه تمارین</title>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            background-color: #fafafa;
-            direction: rtl;
+            font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100%;
         }
 
-        .instagram-feed {
-            max-width: 600px;
-            margin: 0 auto;
-            padding-top: 10px;
-        }
-
-        .post {
-            background-color: #fff;
-            border: 1px solid #dbdbdb;
-            border-radius: 3px;
-            margin-bottom: 20px;
-        }
-
-        .post-header {
-            display: flex;
-            align-items: center;
-            padding: 12px 16px;
-        }
-
-        .profile-pic {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin-left: 10px;
-            object-fit: cover;
-        }
-
-        .username {
-            font-weight: bold;
-        }
-
-        .post-info {
-            padding: 0 16px 10px;
-        }
-
-        .post-info p {
-            margin: 5px 0;
-        }
-
-        .post-date {
-            color: #999;
-            font-size: 12px;
-            margin-top: 10px !important;
-        }
-
-        .video-container, .image-container {
-            position: relative;
-            width: 100%;
-        }
-        
-        .post-media {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        .post.video .post-media {
-            object-fit: cover;
-            height: 350px;
-        }
-
-        .video-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
+        html {
             height: 100%;
+        }
+
+        .container {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            min-height: 100%;
+        }
+
+        /* Header Styles */
+        .header {
+            display: flex;
+            justify-content: space-between;
             align-items: center;
-            cursor: pointer;
-            z-index: 10;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
         }
 
-        .play-button {
-            color: #fff;
-            font-size: 70px;
-            opacity: 1;
-            transition: opacity 0.3s ease-in-out;
-            text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-        }
-
-        .play-button.hidden {
-            opacity: 0;
-        }
-
-        .sound-toggle {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            z-index: 20;
-            color: #fff;
-            background: rgba(0, 0, 0, 0.4);
+        .header-image {
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
-            width: 30px;
-            height: 30px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .project-name {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2c3e50;
+            text-align: center;
+            flex: 1;
+            margin: 0 20px;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            display: flex;
+            flex: 1;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .content-area {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .content-area h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .content-area p {
+            color: #555;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 300px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .sidebar h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 20px;
+            text-align: center;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        .exercise-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .exercise-item {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            margin-bottom: 12px;
+            padding: 15px 20px;
+            border-radius: 10px;
+            color: white;
             cursor: pointer;
-            text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(116, 185, 255, 0.3);
+        }
+
+        .exercise-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(116, 185, 255, 0.4);
+            background: linear-gradient(135deg, #0984e3, #74b9ff);
+        }
+
+        .exercise-item:active {
+            transform: translateY(0);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .project-name {
+                margin: 0;
+                font-size: 24px;
+            }
+
+            .main-content {
+                flex-direction: column;
+                padding: 15px;
+            }
+
+            .sidebar {
+                width: 100%;
+            }
+
+            .header-image {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
         }
     </style>
 </head>
 <body>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <div class="container">
+        <!-- Header Section -->
+        <header class="header">
+            <div class="header-image">🎯</div>
+            <h1 class="project-name">پروژه تمارین ورزشی</h1>
+            <div class="header-image">💪</div>
+        </header>
 
-    <main class="instagram-feed">
-        <!-- پست‌ها به صورت پویا اینجا اضافه می‌شوند -->
-    </main>
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Content Area -->
+            <section class="content-area">
+                <h2>خوش آمدید به برنامه تمارین</h2>
+                <p>
+                    این صفحه برای مدیریت و پیگیری تمارین ورزشی شما طراحی شده است. 
+                    می‌توانید از منوی کناری تمارین مختلف را انتخاب کنید و برنامه تمرینی خود را شروع کنید.
+                </p>
+                <p>
+                    هر تمرین شامل راهنمای کامل، تعداد تکرار پیشنهادی و نکات ایمنی است. 
+                    برای شروع، یکی از تمارین را از لیست کناری انتخاب کنید.
+                </p>
+                <div style="margin-top: 30px; padding: 20px; background: linear-gradient(135deg, #a8edea, #fed6e3); border-radius: 10px;">
+                    <h3 style="color: #2c3e50; margin-bottom: 10px;">💡 نکته مهم</h3>
+                    <p style="margin: 0; color: #2c3e50;">
+                        قبل از شروع هر تمرین، حتماً گرم کردن را فراموش نکنید و در صورت احساس درد، تمرین را متوقف کنید.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <h3>📋 لیست تمارین</h3>
+                <ul class="exercise-list">
+                    <li class="exercise-item" onclick="selectExercise('pushup')">🔥 شنا روی زمین</li>
+                    <li class="exercise-item" onclick="selectExercise('squat')">🦵 اسکات</li>
+                    <li class="exercise-item" onclick="selectExercise('plank')">⚡ پلانک</li>
+                    <li class="exercise-item" onclick="selectExercise('jumping')">🏃 جامپینگ جک</li>
+                    <li class="exercise-item" onclick="selectExercise('lunges')">💪 لانژ</li>
+                    <li class="exercise-item" onclick="selectExercise('burpee')">🔥 برپی</li>
+                    <li class="exercise-item" onclick="selectExercise('mountain')">⛰️ کوه نوردی</li>
+                    <li class="exercise-item" onclick="selectExercise('crunches')">🎯 کرانچ</li>
+                </ul>
+            </aside>
+        </main>
+    </div>
 
     <script>
-        // دریافت داده‌ها از API
-        async function fetchPosts() {
-            try {
-                const response = await fetch('https://raw.githubusercontent.com/Alirezash123/RealApp/refs/heads/main/Realgram');
-                const posts = await response.json();
-                renderPosts(posts);
-            } catch (error) {
-                console.error('خطا در دریافت داده‌ها:', error);
-            }
+        function selectExercise(exerciseType) {
+            const contentArea = document.querySelector('.content-area');
+            
+            const exercises = {
+                pushup: {
+                    title: '🔥 شنا روی زمین (Push-up)',
+                    description: 'تمرین عالی برای تقویت عضلات سینه، شانه و بازو',
+                    instructions: 'در حالت شنا قرار بگیرید، دست‌ها را در عرض شانه قرار دهید و بدن را بالا و پایین ببرید.',
+                    reps: '3 ست، هر ست 10-15 تکرار'
+                },
+                squat: {
+                    title: '🦵 اسکات (Squat)',
+                    description: 'تمرین کامل برای تقویت عضلات پا و باسن',
+                    instructions: 'پاها را در عرض شانه قرار دهید، به آرامی پایین بیایید تا زانوها 90 درجه شود.',
+                    reps: '3 ست، هر ست 15-20 تکرار'
+                },
+                plank: {
+                    title: '⚡ پلانک (Plank)',
+                    description: 'تمرین فوق‌العاده برای تقویت عضلات مرکزی بدن',
+                    instructions: 'در حالت شنا قرار بگیرید اما روی آرنج‌ها تکیه کنید و بدن را صاف نگه دارید.',
+                    reps: '3 ست، هر ست 30-60 ثانیه'
+                },
+                jumping: {
+                    title: '🏃 جامپینگ جک (Jumping Jack)',
+                    description: 'تمرین کاردیو عالی برای سوزاندن کالری',
+                    instructions: 'از حالت ایستاده، همزمان پاها را باز کنید و دست‌ها را بالای سر ببرید.',
+                    reps: '3 ست، هر ست 20-30 تکرار'
+                },
+                lunges: {
+                    title: '💪 لانژ (Lunges)',
+                    description: 'تمرین عالی برای تقویت عضلات پا و تعادل',
+                    instructions: 'یک پا را به جلو ببرید و زانو عقبی را تا نزدیک زمین پایین بیاورید.',
+                    reps: '3 ست، هر پا 10-12 تکرار'
+                },
+                burpee: {
+                    title: '🔥 برپی (Burpee)',
+                    description: 'تمرین کامل بدن با شدت بالا',
+                    instructions: 'از حالت ایستاده به اسکات، سپس پلانک، شنا، برگشت به اسکات و پرش.',
+                    reps: '3 ست، هر ست 8-12 تکرار'
+                },
+                mountain: {
+                    title: '⛰️ کوه نوردی (Mountain Climber)',
+                    description: 'تمرین کاردیو برای تقویت عضلات مرکزی',
+                    instructions: 'در حالت پلانک، به نوبت زانوها را به سمت سینه بیاورید.',
+                    reps: '3 ست، هر ست 20-30 ثانیه'
+                },
+                crunches: {
+                    title: '🎯 کرانچ (Crunches)',
+                    description: 'تمرین هدفمند برای عضلات شکم',
+                    instructions: 'روی پشت دراز بکشید، زانوها خم، دست‌ها پشت سر و شانه‌ها را بلند کنید.',
+                    reps: '3 ست، هر ست 15-25 تکرار'
+                }
+            };
+
+            const exercise = exercises[exerciseType];
+            
+            contentArea.innerHTML = `
+                <h2>${exercise.title}</h2>
+                <div style="background: linear-gradient(135deg, #ffecd2, #fcb69f); padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                    <h3 style="color: #2c3e50; margin-bottom: 10px;">📝 توضیحات</h3>
+                    <p style="margin: 0; color: #2c3e50;">${exercise.description}</p>
+                </div>
+                
+                <div style="background: linear-gradient(135deg, #a8edea, #fed6e3); padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                    <h3 style="color: #2c3e50; margin-bottom: 10px;">🎯 نحوه انجام</h3>
+                    <p style="margin: 0; color: #2c3e50;">${exercise.instructions}</p>
+                </div>
+                
+                <div style="background: linear-gradient(135deg, #d299c2, #fef9d7); padding: 20px; border-radius: 10px;">
+                    <h3 style="color: #2c3e50; margin-bottom: 10px;">🔢 تعداد تکرار</h3>
+                    <p style="margin: 0; color: #2c3e50; font-weight: bold;">${exercise.reps}</p>
+                </div>
+            `;
         }
-
-        // رندر کردن پست‌ها
-        function renderPosts(posts) {
-            const feed = document.querySelector('.instagram-feed');
-            feed.innerHTML = ''; // پاک کردن محتوای قبلی
-
-            // معکوس کردن آرایه پست‌ها برای نمایش جدیدترین در بالا
-            const reversedPosts = [...posts].reverse();
-
-            reversedPosts.forEach(post => {
-                const isVideo = post.Type === 'Video';
-                const postElement = document.createElement('article');
-                postElement.classList.add('post');
-                if (isVideo) postElement.classList.add('video');
-
-                postElement.innerHTML = `
-                    <div class="post-header">
-                        <img src="${post.Profile_icon}" alt="profile picture" class="profile-pic">
-                        <span class="username">${post.Profile_name}</span>
-                    </div>
-                    <div class="${isVideo ? 'video-container' : 'image-container'}">
-                        ${isVideo ? `
-                            <video class="post-media" loop playsinline muted poster="${post.Picture}">
-                                <source src="${post.Video}" type="video/mp4">
-                            </video>
-                            <div class="video-overlay">
-                                <i class="fa-solid fa-circle-play play-button"></i>
-                            </div>
-                            <div class="sound-toggle">
-                                <i class="fa-solid fa-volume-xmark"></i>
-                            </div>
-                        ` : `
-                            <img src="${post.Picture}" alt="post image" class="post-media">
-                        `}
-                    </div>
-                    <div class="post-info">
-                        <p><strong>${post.Profile_name}</strong> ${post.Caption}</p>
-                        <p class="post-date">${post.Date}</p>
-                    </div>
-                `;
-
-                feed.appendChild(postElement);
-            });
-
-            // افزودن رویدادها برای ویدیوها
-            const videoPosts = document.querySelectorAll('.post.video');
-            videoPosts.forEach(post => {
-                const video = post.querySelector('.post-media');
-                const overlay = post.querySelector('.video-overlay');
-                const playButton = post.querySelector('.play-button');
-                const soundToggle = post.querySelector('.sound-toggle');
-
-                overlay.addEventListener('click', () => {
-                    if (video.paused) {
-                        video.play();
-                        playButton.classList.add('hidden');
-                    } else {
-                        video.pause();
-                        playButton.classList.remove('hidden');
-                    }
-                });
-
-                soundToggle.addEventListener('click', (event) => {
-                    event.stopPropagation();
-                    video.muted = !video.muted;
-                    soundToggle.innerHTML = video.muted
-                        ? '<i class="fa-solid fa-volume-xmark"></i>'
-                        : '<i class="fa-solid fa-volume-high"></i>';
-                });
-
-                video.addEventListener('ended', () => {
-                    playButton.classList.remove('hidden');
-                });
-            });
-        }
-
-        // اجرای تابع دریافت پست‌ها هنگام بارگذاری صفحه
-        document.addEventListener('DOMContentLoaded', fetchPosts);
     </script>
-</body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98ce9628604adc58',t:'MTc2MDE4ODExMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
